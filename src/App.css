@@ -17,3 +17,8 @@
   color: #000000;
   text-decoration: none;
 }
+
+#interactive.viewport canvas.drawingBuffer,
+video.drawingBuffer {
+  margin-left: -640px;
+}
