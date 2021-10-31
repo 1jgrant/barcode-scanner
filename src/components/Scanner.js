@@ -3,7 +3,6 @@ import ScanButton from "./ScanButton";
 import { startScanning, stopScanning } from "../utils/scannerUtils";
 
 const Scanner = ({ setScanHistory }) => {
-  const [scannedItems, setScannedItems] = useState([]);
   const [isScanning, setIsScanning] = useState(false);
 
   const toggleScanning = (event) => {

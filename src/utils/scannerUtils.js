@@ -105,7 +105,6 @@ export const handleBarcodeDetected = (
     code: barcodeData.codeResult.code,
     timeStamp: Date.now(),
   };
-  const detectedCode = barcodeData.codeResult.code;
   setScanHistory((currentItems) => [...currentItems, newScanLog]);
   setTimeout(() => {
     startScanning(setIsScanning, setScanHistory);
