@@ -2,8 +2,8 @@ import { useState } from "react";
 import ScanButton from "./ScanButton";
 import { startScanning, stopScanning } from "../utils/scannerUtils";
 
-const Scanner = ({ setScanHistory }) => {
-  const [isScanning, setIsScanning] = useState(false);
+const Scanner = ({ setScanHistory, isScanning, setIsScanning }) => {
+  //   const [isScanning, setIsScanning] = useState(false);
 
   const toggleScanning = (event) => {
     const cameraFeed = document.getElementById("interactive");
