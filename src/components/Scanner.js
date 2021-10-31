@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import Quagga from "@ericblade/quagga2";
+import ScanButton from "./ScanButton";
 
 const Scanner = () => {
   const [scannedItems, setScannedItems] = useState([]);
+  const [isScanning, setIsScanning] = useState(false);
 
   const startScanning = () => {
     const width =
       window.innerWidth ||
       document.documentElement ||
       document.body.clientWidth;
-    let widthConstraint = 640;
-    if (width < 640) {
-      widthConstraint = width;
-    }
+    const widthConstraint = width < 640 ? width : 640;
     Quagga.init(
       {
         frequency: 2,
@@ -53,6 +52,7 @@ const Scanner = () => {
         Quagga.start();
       }
     );
+    setIsScanning(true);
     Quagga.onProcessed(handleBarcodeProcessed);
     Quagga.onDetected(handleBarcodeDetected);
   };
@@ -113,12 +113,24 @@ const Scanner = () => {
   const stopScanning = () => {
     Quagga.stop();
     Quagga.offProcessed();
+    setIsScanning(false);
+  };
+
+  const toggleScanning = (event) => {
+    const button = event.target;
+    console.log(button);
+    if (isScanning) {
+      stopScanning();
+      button.className = "scanBtn startBtn";
+    } else {
+      startScanning();
+      button.className = "scanBtn stopBtn";
+    }
   };
 
   return (
     <div>
-      <button onClick={startScanning}>Start</button>
-      <button onClick={stopScanning}>Stop</button>
+      <ScanButton isScanning={isScanning} toggleScanning={toggleScanning} />
       <div id="interactive" className="viewport"></div>
       <div>
         {scannedItems.map((item) => {

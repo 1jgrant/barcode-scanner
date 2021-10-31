@@ -3,22 +3,39 @@
 }
 
 .App-header {
-  background-color: #3072f7;
-  height: 10vh;
+  background-color: rgb(28, 48, 64);
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
   font-size: calc(10px + 2vmin);
+  padding: 18px 32px;
   color: white;
 }
 
 .App-link {
-  color: #000000;
+  color: #ffffff;
   text-decoration: none;
 }
 
 #interactive.viewport canvas.drawingBuffer,
 video.drawingBuffer {
   margin-left: -100%;
+}
+
+.scanBtn {
+  font-size: calc(10px + 2vmin);
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-decoration: none;
+  width: 100%;
+}
+
+.startBtn {
+  background-color: #4caf50;
+}
+
+.stopBtn {
+  background-color: #f44336;
 }
