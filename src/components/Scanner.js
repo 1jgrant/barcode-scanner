@@ -1,8 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Quagga from "@ericblade/quagga2";
 
 const Scanner = () => {
+  const [scannedItems, setScannedItems] = useState([]);
+
   const startScanning = () => {
+    const width =
+      window.innerWidth ||
+      document.documentElement ||
+      document.body.clientWidth;
+    let widthConstraint = 640;
+    if (width < 640) {
+      widthConstraint = width;
+    }
     Quagga.init(
       {
         frequency: 2,
@@ -11,7 +21,7 @@ const Scanner = () => {
           type: "LiveStream",
           target: document.querySelector("#interactive"),
           constraints: {
-            width: 640,
+            width: widthConstraint,
             height: 480,
           },
           locate: true,
@@ -44,6 +54,7 @@ const Scanner = () => {
       }
     );
     Quagga.onProcessed(handleBarcodeProcessed);
+    Quagga.onDetected(handleBarcodeDetected);
   };
 
   const handleBarcodeProcessed = (barcodeData) => {
@@ -89,13 +100,19 @@ const Scanner = () => {
   };
 
   const handleBarcodeDetected = (barcodeData) => {
-    Quagga.stop();
-    Quagga.offProcessed();
-    console.log(barcodeData);
+    const cameraFeed = document.getElementById("interactive");
+    cameraFeed.getElementsByTagName("video")[0].pause();
+    Quagga.pause();
+    const detectedCode = barcodeData.codeResult.code;
+    setScannedItems((currentItems) => [...currentItems, detectedCode]);
+    setTimeout(() => {
+      startScanning();
+    }, 3000);
   };
 
   const stopScanning = () => {
     Quagga.stop();
+    Quagga.offProcessed();
   };
 
   return (
@@ -103,6 +120,11 @@ const Scanner = () => {
       <button onClick={startScanning}>Start</button>
       <button onClick={stopScanning}>Stop</button>
       <div id="interactive" className="viewport"></div>
+      <div>
+        {scannedItems.map((item) => {
+          return <span>{item}</span>;
+        })}
+      </div>
     </div>
   );
 };
