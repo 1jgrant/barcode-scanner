@@ -1,130 +1,25 @@
-import React, { useState } from "react";
-import Quagga from "@ericblade/quagga2";
+import { useState } from "react";
 import ScanButton from "./ScanButton";
+import { startScanning, stopScanning } from "../utils/scannerUtils";
 
-const Scanner = () => {
+const Scanner = ({ setScanHistory }) => {
   const [scannedItems, setScannedItems] = useState([]);
   const [isScanning, setIsScanning] = useState(false);
 
-  const startScanning = () => {
-    const width =
-      window.innerWidth ||
-      document.documentElement ||
-      document.body.clientWidth;
-    const widthConstraint = width < 640 ? width : 640;
-    Quagga.init(
-      {
-        frequency: 2,
-        inputStream: {
-          name: "Live",
-          type: "LiveStream",
-          target: document.querySelector("#interactive"),
-          constraints: {
-            width: widthConstraint,
-            height: 480,
-          },
-          locate: true,
-          decoder: {
-            readers: ["code_128_reader"],
-            debug: {
-              showCanvas: true,
-              showPatches: true,
-              showFoundPatches: true,
-              showSkeleton: true,
-              showLabels: true,
-              showPatchLabels: true,
-              showRemainingPatchLabels: true,
-              boxFromPatches: {
-                showTransformed: true,
-                showTransformedBox: true,
-                showBB: true,
-              },
-            },
-          },
-        },
-      },
-      (err) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        console.log("Quagga initialised");
-        Quagga.start();
-      }
-    );
-    setIsScanning(true);
-    Quagga.onProcessed(handleBarcodeProcessed);
-    Quagga.onDetected(handleBarcodeDetected);
-  };
-
-  const handleBarcodeProcessed = (barcodeData) => {
-    let drawingCtx = Quagga.canvas.ctx.overlay;
-    let drawingCanvas = Quagga.canvas.dom.overlay;
-    console.log(barcodeData);
-    if (barcodeData) {
-      if (barcodeData.boxes) {
-        drawingCtx.clearRect(
-          0,
-          0,
-          parseInt(drawingCanvas.getAttribute("width")),
-          parseInt(drawingCanvas.getAttribute("height"))
-        );
-        barcodeData.boxes
-          .filter((box) => {
-            return box !== barcodeData.box;
-          })
-          .forEach((box) => {
-            Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, {
-              color: "green",
-              lineWidth: 2,
-            });
-          });
-      }
-      if (barcodeData.box) {
-        Quagga.ImageDebug.drawPath(
-          barcodeData.box,
-          { x: 0, y: 1 },
-          drawingCtx,
-          { color: "blue", lineWidth: 2 }
-        );
-      }
-      if (barcodeData.codeResult && barcodeData.codeResult.code) {
-        Quagga.ImageDebug.drawPath(
-          barcodeData.line,
-          { x: "x", y: "y" },
-          drawingCtx,
-          { color: "red", lineWidth: 3 }
-        );
-      }
-    }
-  };
-
-  const handleBarcodeDetected = (barcodeData) => {
-    const cameraFeed = document.getElementById("interactive");
-    cameraFeed.getElementsByTagName("video")[0].pause();
-    Quagga.pause();
-    const detectedCode = barcodeData.codeResult.code;
-    setScannedItems((currentItems) => [...currentItems, detectedCode]);
-    setTimeout(() => {
-      startScanning();
-    }, 3000);
-  };
-
-  const stopScanning = () => {
-    Quagga.stop();
-    Quagga.offProcessed();
-    setIsScanning(false);
-  };
-
   const toggleScanning = (event) => {
+    const cameraFeed = document.getElementById("interactive");
+    const cameraPlaceholder = document.getElementById("cameraPlaceholder");
     const button = event.target;
-    console.log(button);
     if (isScanning) {
-      stopScanning();
+      stopScanning(setIsScanning);
       button.className = "scanBtn startBtn";
+      cameraFeed.style.display = "none";
+      cameraPlaceholder.style.display = "";
     } else {
-      startScanning();
+      startScanning(setIsScanning, setScanHistory);
       button.className = "scanBtn stopBtn";
+      cameraFeed.style.display = "";
+      cameraPlaceholder.style.display = "none";
     }
   };
 
@@ -132,11 +27,7 @@ const Scanner = () => {
     <div>
       <ScanButton isScanning={isScanning} toggleScanning={toggleScanning} />
       <div id="interactive" className="viewport"></div>
-      <div>
-        {scannedItems.map((item) => {
-          return <span>{item}</span>;
-        })}
-      </div>
+      <div id="cameraPlaceholder">📷</div>
     </div>
   );
 };

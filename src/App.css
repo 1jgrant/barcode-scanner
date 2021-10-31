@@ -18,6 +18,10 @@
   text-decoration: none;
 }
 
+#interactive.viewport {
+  display: "none";
+}
+
 #interactive.viewport canvas.drawingBuffer,
 video.drawingBuffer {
   margin-left: -100%;
@@ -38,4 +42,14 @@ video.drawingBuffer {
 
 .stopBtn {
   background-color: #f44336;
+}
+
+#cameraPlaceholder {
+  font-size: 5em;
+  padding: 55px;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
 }
