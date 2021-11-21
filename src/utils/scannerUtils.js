@@ -1,9 +1,15 @@
 import Quagga from "@ericblade/quagga2";
 
-export const startScanning = (setIsScanning, setScanHistory) => {
+export const getScreenWidth = function () {
   const width =
     window.innerWidth || document.documentElement || document.body.clientWidth;
+  return width;
+};
+
+export const startScanning = (updateIsScanning, updateScanHistory, width) => {
   const widthConstraint = width < 640 ? width : 640;
+  const heightConstraint = widthConstraint * 0.75;
+  console.log(widthConstraint, heightConstraint);
   Quagga.init(
     {
       frequency: 2,
@@ -13,7 +19,7 @@ export const startScanning = (setIsScanning, setScanHistory) => {
         target: document.querySelector("#interactive"),
         constraints: {
           width: widthConstraint,
-          height: 480,
+          height: heightConstraint,
         },
         locate: true,
         decoder: {
@@ -44,10 +50,15 @@ export const startScanning = (setIsScanning, setScanHistory) => {
       Quagga.start();
     }
   );
-  setIsScanning(true);
+  updateIsScanning(true);
   Quagga.onProcessed((barcodeData) => handleBarcodeProcessed(barcodeData));
   Quagga.onDetected((barcodeData) =>
-    handleBarcodeDetected(barcodeData, setScanHistory, setIsScanning)
+    handleBarcodeDetected(
+      barcodeData,
+      updateIsScanning,
+      updateScanHistory,
+      width
+    )
   );
 };
 
@@ -93,8 +104,9 @@ export const handleBarcodeProcessed = (barcodeData) => {
 
 export const handleBarcodeDetected = (
   barcodeData,
-  setScanHistory,
-  setIsScanning
+  updateIsScanning,
+  updateScanHistory,
+  width
 ) => {
   const cameraFeed = document.getElementById("interactive");
   cameraFeed.getElementsByTagName("video")[0].pause();
@@ -103,17 +115,17 @@ export const handleBarcodeDetected = (
   Quagga.offProcessed();
   const newScanLog = {
     code: barcodeData.codeResult.code,
-    timeStamp: Date.now(),
+    timestamp: Date.now(),
   };
-  setScanHistory((currentItems) => [...currentItems, newScanLog]);
+  updateScanHistory(newScanLog);
   setTimeout(() => {
-    startScanning(setIsScanning, setScanHistory);
+    startScanning(updateIsScanning, updateScanHistory, width);
   }, 3000);
 };
 
-export const stopScanning = (setIsScanning) => {
+export const stopScanning = (updateIsScanning) => {
   Quagga.stop();
   Quagga.offDetected();
   Quagga.offProcessed();
-  setIsScanning(false);
+  updateIsScanning(false);
 };
