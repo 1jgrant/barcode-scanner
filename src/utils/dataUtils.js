@@ -32,14 +32,13 @@ export const timestampToTimeString = (timestamp) => {
   return dateObj.toLocaleTimeString("en-GB");
 };
 
-export const getDuration = (startTimestamp, endTimestamp) => {
-  const difference = endTimestamp - startTimestamp;
-  const hours = new Date(difference).getHours();
-  const mins = new Date(difference).getMinutes();
-  const secs = new Date(difference).getSeconds();
-  return `${padDuration(hours)}:${padDuration(mins)}:${padDuration(secs)}`;
+export const padDuration = (unitsOfTime) => {
+  return unitsOfTime < 10 ? "0" + unitsOfTime : `${unitsOfTime}`;
 };
 
-const padDuration = (unitsOfTime) => {
-  return unitsOfTime < 10 ? "0" + unitsOfTime : unitsOfTime;
+export const msToTimeString = (duration) => {
+  const secs = Math.floor((duration / 1000) % 60);
+  const mins = Math.floor((duration / (1000 * 60)) % 60);
+  const hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+  return `${padDuration(hours)}:${padDuration(mins)}:${padDuration(secs)}`;
 };
