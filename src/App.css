@@ -71,12 +71,22 @@ video.drawingBuffer {
   background-color: rgb(28, 48, 64);
 }
 
-.fakeTableHeader {
-  display: flex;
-  justify-content: space-evenly;
+table {
+  border-spacing: 0;
+  border: 1px solid black;
+  width: 100%;
 }
-.fakeTableRow {
+
+th,
+td {
+  margin: 0;
+  padding: 0.5rem;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.tableContainer {
   display: flex;
-  justify-content: space-evenly;
-  font-size: small;
+  justify-content: center;
+  align-items: center;
 }

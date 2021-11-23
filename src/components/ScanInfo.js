@@ -4,21 +4,26 @@ const ScanInfo = ({ recentDetection, lastDetected }) => {
   console.log(lastDetected);
 
   const findTargetTimestamp = (lastDetected) => {
-    const { startTimestamp, endTimestamp, duration } = lastDetected;
-    const isFinished = endTimestamp ? true : false;
+    const { startTime, endTime, duration } = lastDetected;
+    const isFinished = endTime ? true : false;
     if (isFinished) {
       return (
-        <div>
-          <span>End Time: </span>
-          <span>{endTimestamp}</span>
-          <span>{duration}</span>
-        </div>
+        <>
+          <>
+            <span>End Time: </span>
+            <span>{endTime}</span>
+          </>
+          <>
+            <span>Duration: </span>
+            <span>{duration}</span>
+          </>
+        </>
       );
     }
     return (
       <div>
         <span>Start Time: </span>
-        <span>{startTimestamp}</span>
+        <span>{startTime}</span>
       </div>
     );
   };

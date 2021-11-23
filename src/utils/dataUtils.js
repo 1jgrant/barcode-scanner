@@ -6,9 +6,8 @@ export const formatScanData = (newScanLog, scanHistory) => {
     if (targetRecord.startTimestamp) {
       targetRecord.endTimestamp = timestamp;
       targetRecord.endTime = timestampToTimeString(timestamp);
-      targetRecord.duration = getDuration(
-        targetRecord.startTimestamp,
-        timestamp
+      targetRecord.duration = msToTimeString(
+        timestamp - targetRecord.startTimestamp
       );
       return newScanHistory;
     }

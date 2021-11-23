@@ -9,8 +9,11 @@ import { formatScanData } from "./utils/dataUtils";
 
 const dummyLastDetected = {
   code: "B3189321",
-  startTimestamp: 1637525963742,
-  endTimestamp: null,
+  startTimestamp: 1637531751507,
+  startTime: "21:55:51",
+  endTimestamp: 1637531898959,
+  endTime: "21:58:18",
+  duration: "00:02:27",
 };
 
 const dummyScanHistory = [
@@ -20,6 +23,7 @@ const dummyScanHistory = [
     startTime: "21:51:59",
     endTimestamp: null,
     endTime: null,
+    duration: null,
   },
   {
     code: "B3189321",
@@ -27,6 +31,7 @@ const dummyScanHistory = [
     startTime: "21:55:51",
     endTimestamp: 1637531898959,
     endTime: "21:58:18",
+    duration: "00:02:27",
   },
   {
     code: "X8400339",
@@ -34,6 +39,7 @@ const dummyScanHistory = [
     startTime: "21:57:03",
     endTimestamp: null,
     endTime: null,
+    duration: null,
   },
 ];
 
@@ -77,21 +83,6 @@ const App = () => {
           recentDetection={recentDetection}
           lastDetected={lastDetected}
         />
-        <div className="results">
-          {scanHistory.map((item, index) => {
-            return (
-              <div
-                key={`${item.code}-${index}`}
-                style={{ display: "flex", flexDirection: "column" }}
-              >
-                <span>*******</span>
-                <span>Code: {item.code}</span>
-                <span>Start Time: {item.startTime}</span>
-                <span>End Time: {item.endTime}</span>
-              </div>
-            );
-          })}
-        </div>
       </Route>
       <Route path="/log">
         <Log scanHistory={scanHistory} />
