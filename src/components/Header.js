@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "wouter";
 import { stopScanning } from "../utils/scannerUtils";
 
-const Header = ({ resetScan }) => {
+const Header = ({ updateIsScanning }) => {
   return (
     <div className="App-header">
       <Link href="/" className="App-link">
@@ -11,7 +11,7 @@ const Header = ({ resetScan }) => {
       <Link
         href="/log"
         className="App-link"
-        onClick={() => stopScanning(resetScan)}
+        onClick={() => stopScanning(updateIsScanning)}
       >
         log
       </Link>

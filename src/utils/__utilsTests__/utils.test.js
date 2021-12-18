@@ -12,7 +12,7 @@ describe("padDuration", () => {
   });
 });
 
-describe("getDuration", () => {
+describe("msToTimeString", () => {
   test("should return a formatted string from a millisecond integer", () => {
     const time1 = 1637689863603;
     const time2 = time1 + 15000;
@@ -27,6 +27,5 @@ describe("getDuration", () => {
     const expectedOutput3 = `01:07:45`;
     const duration3 = time4 - time1;
     expect(msToTimeString(duration3)).toBe(expectedOutput3);
-    console.log(msToTimeString(147000));
   });
 });
