@@ -3,8 +3,8 @@ import { startScanning, stopScanning } from "../utils/scannerUtils";
 import { useViewport } from "../hooks/useViewport";
 
 const Scanner = ({ updateIsScanning, updateScanHistory, isScanning }) => {
-  let width = useViewport();
-  let imgHeight = width * 0.75;
+  const { width } = useViewport();
+  const imgHeight = width;
 
   const toggleScanning = (event) => {
     const cameraFeed = document.getElementById("interactive");
@@ -22,16 +22,17 @@ const Scanner = ({ updateIsScanning, updateScanHistory, isScanning }) => {
       cameraPlaceholder.style.display = "none";
     }
   };
+
   console.log("Scanner>> ", width, imgHeight);
   return (
-    <div>
+    <div className="scanner-container">
       <ScanButton isScanning={isScanning} toggleScanning={toggleScanning} />
       <div
         id="interactive"
         className="viewport"
         style={{ maxHeight: imgHeight }}
       ></div>
-      <div id="cameraPlaceholder" style={{ height: imgHeight }}>
+      <div id="cameraPlaceholder" style={{ minHeight: width }}>
         📷
       </div>
     </div>

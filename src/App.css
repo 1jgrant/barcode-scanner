@@ -1,5 +1,8 @@
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  max-width: 100vw;
 }
 
 .App-header {
@@ -18,13 +21,23 @@
   text-decoration: none;
 }
 
+#interactive {
+  width: 100vw;
+}
+
 #interactive.viewport {
   display: "none";
+  width: 100%;
 }
 
 #interactive.viewport canvas.drawingBuffer,
 video.drawingBuffer {
   margin-left: -100%;
+  width: 100%;
+}
+
+video {
+  width: 100%;
 }
 
 .scanBtn {
@@ -34,6 +47,12 @@ video.drawingBuffer {
   padding: 15px 32px;
   text-decoration: none;
   width: 100%;
+}
+
+.scan-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .startBtn {

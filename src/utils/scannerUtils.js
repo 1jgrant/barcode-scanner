@@ -1,15 +1,8 @@
 import Quagga from "@ericblade/quagga2";
 
-export const getScreenWidth = function () {
-  const width =
-    window.innerWidth || document.documentElement || document.body.clientWidth;
-  return width;
-};
-
 export const startScanning = (updateIsScanning, updateScanHistory, width) => {
   const widthConstraint = width < 640 ? width : 640;
-  const heightConstraint = widthConstraint * 0.75;
-  console.log(widthConstraint, heightConstraint);
+  const heightConstraint = width;
   Quagga.init(
     {
       frequency: 2,
@@ -46,7 +39,6 @@ export const startScanning = (updateIsScanning, updateScanHistory, width) => {
         console.log(err);
         return;
       }
-      console.log("Quagga initialised");
       Quagga.start();
     }
   );
@@ -65,7 +57,6 @@ export const startScanning = (updateIsScanning, updateScanHistory, width) => {
 export const handleBarcodeProcessed = (barcodeData) => {
   let drawingCtx = Quagga.canvas.ctx.overlay;
   let drawingCanvas = Quagga.canvas.dom.overlay;
-  console.log(barcodeData);
   if (barcodeData) {
     if (barcodeData.boxes) {
       drawingCtx.clearRect(
@@ -120,7 +111,7 @@ export const handleBarcodeDetected = (
   updateScanHistory(newScanLog);
   setTimeout(() => {
     startScanning(updateIsScanning, updateScanHistory, width);
-  }, 3000);
+  }, 200);
 };
 
 export const stopScanning = (updateIsScanning) => {
