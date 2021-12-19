@@ -17,9 +17,7 @@ const App = (): JSX.Element => {
   const detectionTimeout = 5000;
 
   const updateScanHistory = (newScan: NewScanObj) => {
-    console.log("newScan>", newScan);
     const newScanHistory = formatScanData(newScan, scanHistory);
-    console.log(newScanHistory);
     setScanHistory(newScanHistory);
     const targetCode = newScan.code;
     const newScanData = newScanHistory.find(

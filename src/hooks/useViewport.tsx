@@ -23,6 +23,5 @@ export const useViewport = (): IDimensions => {
     return () => window.removeEventListener("resize", handleWindowResize);
   }, []);
 
-  console.log("dimensions>> ", windowDimensions);
   return windowDimensions;
 };

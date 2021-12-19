@@ -15,27 +15,25 @@ type ScanInfoProps = {
 };
 
 const ScanInfo = ({ recentDetection, lastDetected }: ScanInfoProps) => {
-  console.log(lastDetected);
-
   const findTargetTimestamp = (lastDetected: SingleScanData) => {
     const { startTime, endTime, duration } = lastDetected;
     const isFinished = endTime ? true : false;
     if (isFinished) {
       return (
         <>
-          <>
+          <div className="infoLine">
             <span>End Time: </span>
             <span>{endTime}</span>
-          </>
-          <>
+          </div>
+          <div className="infoLine">
             <span>Duration: </span>
             <span>{duration}</span>
-          </>
+          </div>
         </>
       );
     }
     return (
-      <div>
+      <div className="infoLine">
         <span>Start Time: </span>
         <span>{startTime}</span>
       </div>
@@ -45,7 +43,10 @@ const ScanInfo = ({ recentDetection, lastDetected }: ScanInfoProps) => {
   if (recentDetection) {
     return (
       <div className="scanInfo">
-        <span>Code: {lastDetected ? lastDetected.code : ""}</span>
+        <div className="infoLine">
+          <span>Code: </span>
+          <span>{lastDetected ? `${lastDetected.code}` : ""}</span>
+        </div>
         {lastDetected ? findTargetTimestamp(lastDetected) : ""}
       </div>
     );

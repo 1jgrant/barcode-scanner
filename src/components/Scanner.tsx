@@ -55,7 +55,6 @@ const Scanner = ({
     }
   };
 
-  console.log("Scanner>> ", width, imgHeight);
   return (
     <div className="scanner-container">
       <ScanButton isScanning={isScanning} toggleScanning={toggleScanning} />
