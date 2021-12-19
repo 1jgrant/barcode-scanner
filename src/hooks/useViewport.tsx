@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 
-function getWindowDimensions() {
+type IDimensions = {
+  width: number;
+  height: number;
+};
+
+function getWindowDimensions(): IDimensions {
   const { innerWidth: width, innerHeight: height } = window;
   return { width, height };
 }
 
-export const useViewport = () => {
+export const useViewport = (): IDimensions => {
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );

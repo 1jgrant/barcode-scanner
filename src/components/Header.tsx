@@ -1,8 +1,10 @@
-import React from "react";
 import { Link } from "wouter";
 import { stopScanning } from "../utils/scannerUtils";
 
-const Header = ({ updateIsScanning }) => {
+type HeaderProps = {
+  updateIsScanning: (newIsScanning: boolean) => void;
+};
+const Header = ({ updateIsScanning }: HeaderProps): JSX.Element => {
   return (
     <div className="App-header">
       <Link href="/" className="App-link">
@@ -13,7 +15,7 @@ const Header = ({ updateIsScanning }) => {
         className="App-link"
         onClick={() => stopScanning(updateIsScanning)}
       >
-        log
+        Log
       </Link>
     </div>
   );

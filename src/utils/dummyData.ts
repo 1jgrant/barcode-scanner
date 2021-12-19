@@ -1,4 +1,4 @@
-const dummyLastDetected = {
+export const dummyLastDetected = {
   code: "B3189321",
   startTimestamp: 1637531751507,
   startTime: "21:55:51",
@@ -7,7 +7,7 @@ const dummyLastDetected = {
   duration: "00:02:27",
 };
 
-const dummyScanHistory = [
+export const dummyScanHistory = [
   {
     code: "A4940154",
     startTimestamp: 1637531519431,
